@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Bubble Sort with Timer</title>
+  <style type="text/css">
+    body {
+      width: 650px;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script>
+  $(document).ready(function(){
+    var sample_list = [];
+
+    for (var i=0; i < 100; i++) {
+      sample_list.push(' ' + Math.ceil(Math.random() * 10000));
+    }
+    // console.log(sample_list);
+
+    function pairSort( list ) {
+      var startTime = new Date();
+      startTime = startTime.getMilliseconds();
+      for (var j = 0; j<list.length; j++){
+        var swap = false;
+        for (var i = 0; i < list.length; i++) {
+          if (list[i] > list[i+1]) {
+            swap = true; // if there is a swap in the loop then there is a swap
+            temp = list[i+1];
+            list[i+1] = list[i];
+            list[i] = temp;
+          }
+        }
+        if (swap === false){
+          break;
+        } else {
+          pairSort(list);
+        }
+      }
+      var endTime = new Date();
+      endTime = endTime.getMilliseconds();
+      var time = endTime - startTime;
+      return {'list': list, 'startTime': startTime, 'endTime': endTime, 'time': time};
+    }
+
+    var jsSort = pairSort(sample_list);
+
+    $('.jsList').append('<p>' + jsSort.list + '</p><p>Start Time: ' + jsSort.startTime + '</p><p>End Time: ' + jsSort.endTime + '</p><p>Elapsed Time: ' + jsSort.time + ' miliseconds</p>')
+  });
+  </script>
+</head>
+<body>
+  <h3>Python Sorted List:</h3>
+  <p> {{ sample_list }} </p>
+  <p>Start Time: {{ startTime }} </p>
+  <p>Finish Time: {{ endTime }} </p>
+  <p>Elapsed Time: {{ speed }} microseconds </p>
+  <hr>
+  <h3>JavaScript Sorted List:</h3>
+  <p class="jsList"></p>
+</body>
+</html>
